@@ -1,0 +1,179 @@
+---
+title: "Laboratório 2.1 - Risco e Retorno: O modelo média variância"
+author: "Marcos Cavalcanti"
+date: "04/06/2022"
+output: word_document
+---
+
+
+```{r include = FALSE}
+library(quantmod,
+        rio)
+```
+
+
+### Importando os dados do Yahoo Finance  
+  
+
+```{r}
+#library(quantmod)
+tickers = c("PETR4.SA","VALE3.SA","BBAS3.SA","EGIE3.SA","PSSA3.SA")
+start_date = '2011-01-01'
+end_date = '2020-12-31'
+getSymbols(tickers, src = "yahoo", from = start_date, to = end_date)
+
+
+petr_close = as.vector(PETR4.SA$PETR4.SA.Close)
+vale_close = as.vector(VALE3.SA$VALE3.SA.Close)
+bbas_close = as.vector(BBAS3.SA$BBAS3.SA.Close)
+egie_close = as.vector(EGIE3.SA$EGIE3.SA.Close)
+pssa_close = as.vector(PSSA3.SA$PSSA3.SA.Close)
+
+
+retornos = data.frame(
+  petr_ret = Delt(petr_close)[2:length(Delt(petr_close))],
+  vale_ret = Delt(vale_close)[2:length(Delt(vale_close))],
+  bbas_ret = Delt(bbas_close)[2:length(Delt(bbas_close))],
+  egie_ret = Delt(egie_close)[2:length(Delt(egie_close))],
+  pssa_ret = Delt(pssa_close)[2:length(Delt(pssa_close))]
+)
+
+#export(retornos, 'laboratorio_2.1.xlsx')
+
+```
+  
+  
+### Exercício 1  
+  
+Como demonstrado pelos cálculos no Excel e exposto no gráfico abaixo, é possível notar uma clara relação inversa entre risco e retorno. Não é uma regra axiomática, mas na nossa pequena amostra de 5 ações brasileiras já foi possível ver essa tendência. Vale ressaltar que os retornos, as variâncias e as covariâncias foram anualizadas, com o objetivo melhorar a exposição dos dados para o tomador de decisão.  
+  
+  
+  
+
+
+Vale ainda notar que, nesse caso, estamos considerando risco unicamente determinado pela variância; algo que sabemos que não é uma boa medida de risco.
+
+
+### Exercício 2  
+  
+  
+### Item 2.1  
+  
+Sejam $w_1$ e $w_2$ as frações dos dois ativos de modo que $w_1 + w_2 = 1$. Desse modo, seja $r_i$ a variável aleatória que expressa o retorno do ativo $i$ e $r_c$ a variável aleatória que representa o retorno combinado da carteira, então    
+
+  
+$$ E[r_c] = \sum\limits_{i = 1}^{2} w_i \; E[r_i]$$
+  
+Enquanto que a variância da carteira é dada por  
+  
+$$V[r_c] = \sum\limits_{i,j = 1}^{2} w_i \times w_j \times cov(r_i,r_j)$$
+  
+Logo, temos
+  
+  
+  
+  
+  
+### Item 2.2  
+  
+Bom, agora vamos analisar o caso que os dois ativos têm correlação **perfeitamente** positiva e **perfeitamente** negativa. Para isso, vale lembrar que temos a seguinte relação:    
+  
+$$Corr(r_i,r_j) = \frac{Cov(r_i,r_j)}{\sqrt{\sigma^2_1 \;\sigma^2_2}}$$
+  
+Logo no caso em que $Corr(r_i,r_j) = 1$, temos  
+  
+$$Cov(r_i,r_j) = \sqrt{\sigma^2_1 \sigma^2_2}$$  
+  
+Analogamente, quando $Corr(r_i,r_j) = -1$, temos  
+  
+$$Cov(r_i,r_j) = - \sqrt{\sigma^2_1 \sigma^2_2}$$  
+  
+  
+Sobre a pergunta se podemos inferir a rentabilidade do ativo livre de risco, a resposta é sim! Ora, se os ativos são perfeitamente descorrelacionados, então o risco é igual a zero e o seu retorno é a rentabilidade do ativo livre de risco.
+
+A prova desse fato é simples e pode ser feita por contradição, baseada na Teoria da Arbitragem.  
+  
+Se, por um acaso, o ativo livre de risco tivesse uma rentabilidade difernte da nossa carteira hipotética, então haveria oportunidade de arbitragem entre os dois investimentos, o que deixaria a taxa sendo única.  
+  
+  
+  
+  
+
+### Item 2.3 / 2.4  
+  
+Vamos formular um problema de programação matemática para minimizar a variância de uma carteira dado um retorno mínimo exigido.  
+  
+  
+$$\min_{\omega} \frac{1}{2} \sum\limits_{i,j = 1}^{n} \omega_i \times \omega_j \times Cov(r_i,r_j)$$  
+
+  
+Sujeito a  
+  
+$$\sum\limits_{i = 1}^n \omega_i = 1$$
+  
+$$\sum\limits_{i = 1}^n \omega_i \times E[r_i] = R $$  
+  
+Temos ainda o caso em que a última restrição acima tem maior flexibilidade, de modo que  
+  
+$$\sum\limits_{i = 1}^n \omega_i \times E[r_i]  \geq R $$  
+  
+
+
+### Item 2.5  
+  
+Suponha uma cesta de $n$ ativos, temos um vetor de alocação dado por  
+  
+$$\omega = \left[\omega_1, \omega_2,...,\omega_n\right]$$  
+  
+**Andar sobre a curva** significa que esta é contínua em todo o seu dominio, ou seja, o modelo considera alocações de capital contínuas.  
+  
+Desse modo, considere duas combinações de ativos, A e B, 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

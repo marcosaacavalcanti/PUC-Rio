@@ -1,1 +1,1 @@
-read me teste
+[ENG1536] Inferência Estatística

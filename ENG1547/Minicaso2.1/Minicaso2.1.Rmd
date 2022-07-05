@@ -1,0 +1,245 @@
+---
+title: "Minicaso 2.1 - Risco, Custo de Capital e Avaliação"
+author: "Marcos Cavalcanti (1920533) & "
+output: word_document
+---
+  
+<br>  
+  
+## Parte I  
+  
+<br>  
+  
+
+### Pergunta 1  
+  
+Primeiramente, vamos à descrição das variáveis:  
+  
+$E[\tilde{r}_C]$: expectativa de retorno da carteira  
+$E[\tilde{r}_M]$: expectativa de retorno de Mercado  
+$E[\tilde{r}_P]$: expectativa de retorno da Pioneer  
+$E[\tilde{r}_G]$: expectativa de retorno da Global Mining  
+$DP[\tilde{r}_C]$: estimativa do desvio padrão da carteira  
+$DP[\tilde{r}_M]$: estimativa do desvio padrão de Mercado    
+$DP[\tilde{r}_P]$: estimativa do desvio padrão da Pioneer  
+$DP[\tilde{r}_G]$: estimativa do desvio padrão da Global Mining  
+$\omega_M$: a fração da carteira investida no índice de Mercado  
+$\omega_P$: a fração da carteira investida nas ações da Pioneer  
+$\omega_G$: a fração da carteira investida nas ações da Global Mining  
+$r_f$: taxa livre de risco   
+  
+
+Agora, calculemos o **retorno esperado** dessa carteira, composta parcialmente pelo índice de Mercado e pelas ações da Pioneer. 
+  
+$$E[\tilde{r}_C] = \omega_M \times E[\tilde{r}_M]\;+\;\omega_P \times E[\tilde{r}_P]$$
+  
+Assim, apresentamos abaixo uma distribuição de retornos esperados em função da alocação de cada uma dos ativos. Em outras palavras, cada ponto da curva respeita a condição $\omega_M + \omega_P = 1$.  
+
+
+
+
+
+
+  
+
+Bom, considerando que o *prêmio de risco* é dado pela diferença entre a expectativa de retorno do Mercado ($E[\tilde{r}_M]$) com a taxa livre de risco ($\tilde{r}_f}$), esta dada por $5%$, então, temos a seguinte distribuição:  
+  
+
+
+
+
+
+
+
+Em relação ao $DP[\tilde{r_C}]$, usaremos o fato explícito de que $DP[\tilde{r_C}] = \sqrt{V[\tilde{r_C}]}$, em que $V[\tilde{r_C}]$ é a variância estimada de uma carteira, composta por $n$ ativos, é dada por:  
+  
+  
+$$V[\tilde{r}_c] = \sum\limits_{i = 1}^{n} \sum\limits_{j = 1}^{n} \omega_i \omega_jCov(\tilde{r}_i,\tilde{r}_j)X_0^2$$  
+  
+Portanto, na carteira do nosso problema, temos que para $\omega_M + \omega_P = 1$, a seguinte distribuição:  
+  
+  
+
+
+
+
+Por fim, vamos otimizar o Índice Sharpe ($IS$) da carteira. Assim,    
+  
+$$\max_{w^* \in W} IS = \frac{(E[\tilde{r}_C] - r_f)}{DP[\tilde{r}_C]}$$  
+  
+Desse modo, os resultados obtidos foram  
+  
+$$IS = 0,47$$  
+  
+$$\omega^*_M = 0,96$$  
+  
+$$\omega^*_P = 0,04$$  
+  
+### Pergunta 2  
+  
+Bom, agora no caso da Global Mining, o problema é levemente mais *tricky*, uma vez que devemos considerar a própria participação da empresa no índice de mercado. 
+  
+Desse modo, consideraremos duas variáveis artificiais, caracterizando a fração da carteira do Mercado, descontado a Global Mining $(w_{M/G})$ e, outra, denotando a participação da Global Mining *dentro* do índice $(w_{G(M)})$.  
+  
+  
+Sem mais delongas, vamos exibir os gráficos de retorno esperado, prêmio de risco e desvio padrão dessa nova carteira com a Global Mining.  
+  
+
+
+
+Além disso, temos que  
+  
+$$IS^* = 0,47$$  
+  
+$$w_M^* = 0,9925$$  
+  
+$$w_G^* = 0,0075$$
+  
+<br>  
+  
+## Parte I  
+  
+### Pergunta 1  
+  
+Primeiramente, vamos à descrição das variáveis:  
+  
+$IN$: Investimento Inicial  
+$p$: Probabilidade do Poço estar seco  
+$Q$: Quantidade de barris de petróleo produzido incialmente    
+$P$: Preço de venda por barril  
+$C$: Custo de transporte e encargos por barril  
+$g_P$: Taxa de crescimento do preço por barril  
+$g_Q$: Taxa de crescimento da produção do poço  
+$T$: Tempo total de operação do Poço  
+$r_f$: Taxa de Juros Livre de Risco    
+$PRM$: Prêmio de Risco de Mercado
+$\hat{\beta}$: Beta estimado  
+$VPL$: Valor Presente Líquido  
+$r$: Taxa de Desconto dos fluxos de caixa futuros  
+$t^0$: $t^0 = \min\{t \in \mathbb{N}\;|\; VPL(F,T,r) > 0\}$  
+  
+  
+#### Definição: Valor Presente Líquido (VPL)  
+  
+Seja $F = [\;f_0,f_1,...,f_T\;] \in \mathbb{R}^{T+1}$ o fluxo financeiro do resultado líquido ao longo de ${T+1}$ períodos e $r$ uma taxa de desconto. Daí,construimos a função $VP: \mathbb{R}^{T+1} \rightarrow \mathbb{R}$ definida como:
+$$VPL(F,T,r) = \sum_{t = 0}^{T} \frac{f_t}{(1+r)^{t}}$$
+  
+Agora, considerando somente um custo de capital *próprio* e que o risco do projeto é igual ao risco da empresa, a nossa taxa de desconto $r$ será dada por:  
+  
+$$r = r_f \;+\;\beta\times PRM = 10\% $$  
+  
+Enquanto que os fluxos de caixa líquidos são dados por:  
+  
+$$f_t =
+
+       \begin{cases}
+
+             -5.000.000\;, & t = 0 \\
+
+             \left[P\times(1+g_P)^{t} - 10\right]\times \left[Q\times(1+g_Q)^{t}\right], & 0 < t \leq 15
+
+       \end{cases} $$  
+  
+
+
+Seguem os Resultados abaixo.  
+  
+$$VPL = - 608.132,57$$  
+  
+  
+$$t^0 = 25$$
+  
+<br>  
+  
+### Pergunta 2  
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

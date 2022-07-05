@@ -1,0 +1,374 @@
+---
+title: "Laboratório 1.2"
+author: "Gabriela Alves (1911840) & Marcos Cavalcanti (1920533)"
+date: "15/04/2022"
+output: word_document
+---
+
+## Exercício 1  
+
+### item 1.1  
+  
+  
+Temos os seguintes três títulos disponíveis:
+
+
+3 IMAGENS DOS FLUXOS DE PAGAMENTOS
+
+
+
+Sendo:  
+  
+$$P_1 = 950$$
+  
+$$P_2 = 1100$$
+  
+$$P_3 = 900$$  
+  
+  
+Todos os títulos tem a mesma maturidade, 10 anos, bem como o novo título que queremos. 
+O novo título é zero cupom, ou seja, tem um único pagamento de seu principal mais o seu bônus no momento do seu vencimento.  
+
+Diante desse problema, queremos resolver uma combinação linear entre os 3 títulos disponíveis, de modo que a resultante seja o novo título.  
+
+O novo fluxo será:
+
+
+
+IMAGEM DO NOVO FLUXO
+
+
+Contudo, devemos respeitar as seguintes condições:  
+  
+Seja $n_1$ o número de $T_1$ na carteira, $n_2$ o número de $T_2$ e $n_3$ o número de $T_3$, tal que se $n_i < 0$ implica a venda de $-n$ unidades do $T_i$.  
+
+1) Zero cupom  
+
+$$n_1 \times (0,04) + n_2 \times (0,04 + tc) + n_3 \times (0,08 - tc) = 0 $$
+  
+2) Além disso, como queremos uma valor de face do novo título seja igual a 1000,   
+  
+$$n_1  + n_2  + n_3 = 1$$
+  
+3) E, por último,    
+  
+$$n2 - n3 = 0$$
+  
+Pois dessa forma, não precisaremos nos preocupar com a taxa curta.  
+
+Desse modo,  
+
+$$\begin{bmatrix} 
+	0,04 & 0,04+tc & 0,08-tc \\
+	1 & 1 & 1\\
+	0 & 1 & -1 \\
+	\end{bmatrix}
+	\begin{bmatrix} 
+	n_1\\
+	n_2\\
+	n_3\\
+	\end{bmatrix}
+	=
+	\begin{bmatrix} 
+	0\\
+	1\\
+	0\\
+	\end{bmatrix}
+	
+	$$
+
+  
+Logo, 
+
+$$n_1 = 3 $$  
+  
+$$n_2 = -1$$  
+  
+$$n_3 = -1$$  
+  
+Portanto, teremos que o preço do novo título será igual a:  
+
+$$n_1 \times P_1 + n_2 \times P_2 + n_3 \times P_3 $$
+$$3 \times 950 + -1 \times 1100 + -1 \times 900 = 850,00 $$ 
+
+### Item 1.2  
+
+Agora, queremos determinar o preço de um título pós-fixado, com cupons anuais, vencimento de 10 anos e valor de face igual $ 1000,00.  
+
+Assim, devemos alterar as restrições impostas do modelo no Item 1.1, de tal forma que  
+  
+
+1) O título tenha cupom.  
+
+$$n_1 \times (0,04) + n_2 \times (0,04 + tc) + n_3 \times (0,08 - tc) = tc $$
+  
+2) Valor de face do novo título seja igual a 1000.     
+  
+$$n_1  + n_2  + n_3 = 1$$
+  
+3) E, por último,    
+  
+$$n2 - n3 = 1$$ 
+  
+Pois dessa forma, o novo título ficará  
+
+Desse modo,  
+
+$$\begin{bmatrix} 
+	0,04 & 0,04+tc & 0,08-tc \\
+	1 & 1 & 1\\
+	0 & 1 & -1 \\
+	\end{bmatrix}
+	\begin{bmatrix} 
+	n_1\\
+	n_2\\
+	n_3\\
+	\end{bmatrix}
+	=
+	\begin{bmatrix} 
+	tc\\
+	1\\
+	1\\
+	\end{bmatrix}
+	
+	$$
+  
+Logo, 
+
+$$n_1 = 2 $$  
+  
+$$n_2 = 0$$  
+  
+  
+$$n_3 = -1$$  
+  
+  
+Portanto, teremos que o preço do novo título será igual a:    
+
+$$n_1 \times P_1 + n_2 \times P_2 + n_3 \times P_3 $$  
+  
+$$2 \times 950 + 0 \times 1100 + -1 \times 900 = 1.000,00 $$
+  
+  
+## Exercício 2  
+
+### Item 2.2  
+  
+  
+Sejam $T_1$ o Título 1, $P_1$ o preço do Título 1 e $c_1$ o cupom do Título 1. Analogamente, para $T_2$,$P_2$ e $c_2$.  
+  
+Queremos encontrar o preço de uma NTN-B Principal com valor de face igual a $100 com tempo de vencimento igual a 10 anos, em função da precificação dos títulos acima.  
+  
+Dessa forma, construiremos um **título sintético** que é uma combinação linear entre $T_1$ e $T_2$, tal que satisfaça duas restrições.  
+  
+
+1) Valor de face do título sintético igual a $100. Isso implica que:  
+$$n_1 + n_2 = 1$$
+  
+2) Não haja pagamento de cupom ao longo da vida do título. logo,  
+
+$$n_1 \times P_1 \times c_1 + n_2 \times P_2 \times c_2 = 0$$
+  
+Por consequência, devemos resolver o seguinte sistema linear abaixo.  
+
+$$
+\begin{bmatrix} 
+	1 & 1 \\
+	P_1 \times c_1 & P_2 \times c_2  \\
+	\end{bmatrix}
+	\begin{bmatrix} 
+	n_1\\
+	n_2\\
+	\end{bmatrix}
+	=
+	\begin{bmatrix} 
+	1\\
+	0\\
+	\end{bmatrix}
+	
+$$
+  
+Logo,
+$$n_1 = 1,638$$  
+  
+
+$$n_2 = -0,638$$  
+  
+E, portanto, $P$, o preço do nosso título **sintético** é igual a  
+  
+$$P = n_1 \times P_1 + n_2 \times P_2 = 63,83$$
+
+### Item 2.2  
+  
+Como podemos notar, a taxa de IPCA não impactará nessa tomada de decisão, uma vez que a precificação de $P$ não depende desse parâmetro.   
+  
+
+
+## Exercício 3  
+
+### Item 3.1  
+O preço de um título é dado pela soma dos fluxos de pagamentos descontado por uma taxa efetiva. De modo geral, podemos escrever  
+
+$$P = \frac{C_1}{(1+y)^{1}} + \frac{C_2}{(1+y)^{2}}+\;...\;+ \frac{C_T}{(1+y)^{T}}\;=\;   \sum_\limits{t = 1}^{T}\frac{C_t}{(1+y)^{t}}$$
+  
+Onde:  
+
+$P$ = Preço do Título  
+
+$C_t$ = Fluxo de Pagamento no período t  
+
+$y$ = Taxa interna de retorno de mercado  
+
+$T$ = Número de períodos  
+
+Dessa forma o preço de cada título é dado por  
+
+$$P_A = \frac{100}{(1+0.15)} + \frac{100}{(1+0.15)^2}+\frac{1100}{(1+0.15)^3} = 885,84$$
+$$P_B = \frac{50}{(1+0.15)} + \frac{50}{(1+0.15)^2}+\frac{1050}{(1+0.15)^3} = 771,68 $$
+$$P_C = \frac{0}{(1+0.15)} + \frac{0}{(1+0.15)^2}+\frac{1000}{(1+0.15)^3} = 657,52$$
+$$P_D = \frac{1000}{(1+0.15)} + \frac{0}{(1+0.15)^2}+\frac{0}{(1+0.15)^3} = 869,57 $$
+
+### Item 3.2  
+O coeficiente de **Duration** ou Duração é entendido pela definição de Frederick Macaulay, dada em 1938: um prazo médio do título. Para um bônus cupom zero, a Duração do investimento é o prazo que resta para o seu vencimento. Para os ativos com fluxos intermediários como os bônus que pagam cupom de juros, Macaulay sugere uma medida similar: a média ponderada dos prazos de um título no qual os pesos são dados pelo valor presente do fluxo do título em relação ao seu preço, ou seja, uma medida de prazo, em média, que o detentor de um título terá que esperar antes de receber o pagamento.  
+
+Segue abaixo, a sua experessão  
+
+$$DM = \frac{1}{P}\times \left[\frac{1 \times C_1}{(1+y)^{1}} + \frac{2 \times C_2}{(1+y)^{2}} + \;...\;+ \frac{T \times C_T}{(1+y)^{T}}\right]$$
+$$DM = \frac{\sum_\limits{t = 1}^{T} \frac{t \times C_t}{(1+y)^{t}}}{P}$$
+
+Logo, temos que  
+
+$$DM_A = \frac{\frac{1 \times 100}{(1+0.15)^1}+\frac{2 \times 100}{(1+0.15)^2}+\frac{3 \times 1100}{(1+0.15)^3} }{\frac{100}{(1+0.15)^1}+\frac{100}{(1+0.15)^2}+\frac{1100}{(1+0.15)^3}}$$
+$$DM_A = 2,72$$
+  
+  
+$$DM_B = \frac{\frac{1 \times 50}{(1+0.15)^1}+\frac{2 \times 50}{(1+0.15)^2}+\frac{3 \times 1050}{(1+0.15)^3} }{\frac{50}{(1+0.15)^1}+\frac{50}{(1+0.15)^2}+\frac{1050}{(1+0.15)^3}}$$  
+
+$$DM_B = 2,84$$
+  
+  
+$$DM_C = \frac{\frac{1 \times 0}{(1+0.15)^1}+\frac{2 \times 0}{(1+0.15)^2}+\frac{3 \times 1000}{(1+0.15)^3} }{\frac{0}{(1+0.15)^1}+\frac{0}{(1+0.15)^2}+\frac{1000}{(1+0.15)^3}}$$ 
+$$DM_C = 3,00$$
+  
+  
+$$DM_D = \frac{\frac{1 \times 1000}{(1+0.15)^1}+\frac{2 \times 0}{(1+0.15)^2}+\frac{3 \times 0}{(1+0.15)^3} }{\frac{1000}{(1+0.15)^1}+\frac{0}{(1+0.15)^2}+\frac{0}{(1+0.15)^3}}$$
+$$DM_D = 1,00$$
+  
+  
+### Item 3.3  
+Podemos expandir a fórmula obitida para o *preço de um título* no **Item 3.1** para medir a sua taxa de variação em relação à *taxa de desconto*. Dessa forma,  
+
+$$P = \frac{C_1}{(1+y)^{1}} + \frac{C_2}{(1+y)^{2}}+\;...\;+ \frac{C_T}{(1+y)^{T}}\;=\;   \sum_\limits{t = 1}^{T}\frac{C_t}{(1+y)^{t}}$$
+
+$$\frac{dP}{dy} = -\frac{1}{(1+y)}\left[\frac{1 \times C_1}{(1+y)^1}+ \frac{2 \times C_2}{(1+y)^2} +\;...\;+\frac{T \times C_T}{(1+y)^T}\right]$$
+$$\frac{dP}{dy} = -\frac{1}{(1+y)}\sum_\limits{t = 1}^{T} \frac{t \times C_t}{(1+y)^t}$$
+Obtemos, então, a variação de primeira ordem do preço em relação à taxa de desconto.
+Contudo, a depender da sensibilidade que o título tem com a taxa de juros, essa medidade se torna rapidamente enviesada. Portanto, vamos expandir um pouco mais os resultados a fim de melhorar a sua performance!  
+
+Dividindo tudo por $P$, temos
+
+$$\frac{1}{P}\frac{dP}{dy} = -\frac{1}{(1+y)}\sum_\limits{t = 1}^{T}\frac{1}{P} \frac{t \times C_t}{(1+y)^t}$$
+$$\frac{dP}{dy} = - \frac{D \times P}{1+y}$$
+  
+Logo, calculando as sensibilidades dos títulos:  
+
+$$\frac{dP_A}{dy} = - \frac{D \times P_A}{1+y} = $$
+  
+$$\frac{d^2P_A}{dy^2} = - \frac{D}{1+y} = $$
+  
+Diante dissso, temos que a sensibilidade ($S$) de cada título é:  
+
+$$S_A = -2,36$$
+  
+$$S_B = -2,46$$
+  
+$$S_C = -2,61$$
+  
+$$S_D = -0.87$$
+  
+Logo, o título com maior sensitividade à taxa de desconto é o Título C.  
+  
+  
+
+
+
+### Item 3.4  
+
+Seja $X$ o vetor de decisão de compra dos Títulos 1,2,3 e 4 (resp. Títulos A,B,C e D), $P$ é o vetor de custos de cada título. 
+  
+
+$$X = [x_1,x_2,x_3,x_4]$$  
+  
+$$P = [P_1,P_2,P_3,P_4]$$   
+  
+$$\min_{x_i \in X} \sum_\limits{i = 1}^{4} x_i \times P_i$$ 
+  
+$$s.a.$$
+
+1) Casamento de valor presente. Seja $VP_L$ o valor presente do passivo,  
+
+$$\sum_\limits{i =1}^{4}x_i \times P_i = VP_L $$
+  
+2) Convexidade da cesta de títulos maior que a do passivo.  
+
+
+$$\frac{d\;(\sum_\limits{i=1}^{4}x_i \times P_i)}{dy} \geq \frac{d \; VP_L}{dy}$$
+  
+O que implica a seguinte restrição  
+  
+$$$$
+
+
+
+$$\left[-\frac{1}{1+y}\right]\sum_\limits{i = 1}^{4}x_i \times D_i \times P_i = \left[-\frac{1}{1+y}\right] \times D_L \times VP_L$$
+$$\sum_\limits{i = 1}^{4}x_i \times D_i \times P_i = D_L \times VP_L \;\;\;\;\ (2)$$
+$$\frac{d^2 (\sum_\limits{i=1}^{4}x_i \times VP_i)}{dy^2} \geq \frac{d^2 VP_L}{dy^2}$$
+$$\sum_\limits{i = 1}^{4}x_i \times C_i \times P$$
+
+
+
+## Questão 4  
+
+### Item 4.1  
+
+Vamos considerar que todos os títulos tem valor de face igual a $ 1.000,00.  
+
+$$ s_1 = \frac{1000}{P_1} - 1$$  
+  
+$$ s_2 = \sqrt{\frac{1000}{P_2}} - 1 $$  
+  
+$$ s_3 = \sqrt[3]{\frac{1000}{P_2}} - 1 $$  
+  
+$$(1+s_1) \times (1+ f_{1,2}) = (1+ s_2)^2 $$  
+  
+$$f_{1,2} = \frac{(1+ s_2)^2}{(1+s_1)} - 1 $$  
+  
+
+$$(1+s_1) \times (1+ f_{1,3}) = (1+ s_3)^3 $$  
+  
+
+$$f_{1,3} = \frac{(1+ s_3)^3}{(1+s_1)} - 1 $$  
+  
+$$(1+s_2)^2 \times (1+ f_{2,3}) = (1+ s_3)^3 $$  
+  
+$$f_{2,3} = \frac{(1+ s_3)^3}{(1+s_2)^2} - 1 $$  
+  
+### Item 4.2  
+
+$$(1+s_4)^4 = (1+s_2)^2 \times (1+f_{2,4})^2$$
+  
+$$s_4 = 9,20\%$$
+  
+$$(1+s_1) = \frac{(1+s_2)^2}{(1+f_{1,2})}$$
+  
+$$s_1 = 6,01\%$$
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,152 @@
+---
+title: "Projeto Final"
+author: "Marcos Cavalcanti (1920533) & Gustavo Deutscher (1820438)"
+output: word_document
+---
+  
+<br>
+  
+## Item (i)  
+  
+Seja $Q$ a quantidade contratada de energia para todos os meses, isto é, $\forall i\in \{1,2,...,12\}, Q_{i} = Q$, e $\tilde{d_i}$, a demanda incerta de energia para o mês $i$, então a expressão da multa que a empresa irá pagar é  
+  
+  
+$$C(Q,\tilde{d_i}) = \sum\limits_{i = 1}^{12} 100 \times max\{\tilde{d_i} - Q\;,0\} + 10 \times min\{\tilde{d_i} - Q\;,0\}$$  
+  
+<br>  
+  
+## Item (ii)  
+  
+Para a modelagem deste problema, vamos aplicar o modelo recomendado por Silver **et al.**(1998), que é o seguinte:
+  
+$$x_t = (a+bt) \;F_t + \epsilon_t$$  
+  
+Em que temos uma componente de tendência $(a+bt)$ e uma componente sazonal $F_t$, denominado fator de sazonalidade.  
+  
+A previsão feita no período $t$ para o período $t+\tau$ é:  
+  
+$$\hat{x}_{t,t+\tau} = (\hat{â}+\hat{b}_t\;\tau)\;\hat{F}_{t(mod(\tau))}$$
+
+Bom, depois de descrito o modelo, precisamos realizar as estimativas dos parâmetros para que, por fim, possamos estimar possíveis valores de demanda futura. Desse modo, para capturar as componentes de tendência, realizamos uma regressão linear com os dados amostrados.  
+  
+$$\min_{\hat{a},\hat{b}} \sum\limits_{t = 0}^{59} ((\hat{a} + \hat{b}\;t) \hat{F}_t - x_t)^2 $$  
+  
+Em que $\hat{a},\hat{b}$ são os parâmetros a ser estimados, e $x_t$ é a demanda realidade no instante tempo $t$, no nosso caso, um dado mês de um ano qualquer amostrado. Desse modo, temos que   
+  
+$$\hat{a}^* = 7,150 $$  
+  
+$$\hat{b}^* = 0,616$$
+  
+E seja o vetor de resultados das estimativas sazonais $\hat{F}$,  
+  
+$$\hat{F} = \left [\hat{F}_0, \hat{F}_1, ...,\hat{F}_{11} \right] $$  
+  
+Então,  
+  
+$$\hat{F} = \left [1,583\;,\; 0,560\;,\;0,489\;,\;1,240\;,\;0,940\;,\;1,084\;,\;0,717\;,\;1,337\;,\;0,774\;,\;0,722\;,\;1,534\;,\;1,395 \right]$$  
+  
+<br>  
+  
+## Item (iii)  
+  
+Bom, pelo nosso sistema de índices do modelo os meses de jan/20,fev/20 até dez/20 serão representados pelos números de 60 a 71. O que queremos encontrar é:  
+  
+$$\hat{x}_t = (\hat{a} + \hat{b}\;t) \hat{F}_t\;\;,t \in\{60,61,...,71\}$$
+  
+Desse modo, seja $\hat{X}$ o vetor de demanda estimada para os meses de 2020,  
+  
+$$\hat{X} = \left[\hat{x}_{60},\hat{x}_{61},...,\hat{x}_{71}\right]$$  
+  
+Então,  
+  
+$$\hat{X} = \left[69,800\;,\;25,050\;,\;22,172\;,\;57,001\;,\;43,743\;,\;51,120\;,\;34,273\;,\;64,740\;,\;35,402\;,\;38,398\;,\;77,106\;,\;70,974 \right]$$
+  
+  
+<br>  
+  
+## Item (iv)  
+  
+Definiremos o valor da flexibilidade pela diferença entre o custo da multa com o modelo **sem** flexibilidade, em comparação com o modelo **com** flexibilidade.  
+  
+Os resultados obtidos no Excel seguem abaixo.
+  
+  
+$$Valor\;da\;Flexibilidade \;= \sum\limits_{t= 60}^{71} Multa(MSF)_t + \sum\limits_{t= 60}^{71} Multa(MCF)_t \;= 915,38 - 485,90 = 429,48 $$  
+  
+<br>  
+  
+## Item (v)  
+  
+#### Neutro a Risco  
+  
+Simplificadamente, o objetivo desse item é para **cada** mês do ano de 2020, minimizar o valor esperado da multa, **dado** os cenários da Consultoria. Assim,  
+  
+$$\min_{Q^*} E[Multa(i)]\;,\; i \in\{Jan,Fev,...,Dez\}$$
+  
+Desse modo, Chegamos ao vetor $Q$ de quantidades ótimas de cada mês, dado por  
+  
+$$Q = \left[ 71,52\;,\;20,90\;,\;20,32\;,\;55,45\;,\;36,92\;,\;49,85\;,\;30,89\;,\;60,82\;,\;28,24\;,\;29,69\;,\;81,11\;,\;69,55  \right]$$  
+  
+#### Avesso a Risco  
+  
+Nesse item, queremos "pesar" diferentemente,na decisão da companhia, cenários menos ou mais favoráveis. Desse modo, vamos criar uma função de utilidade diferente daquela que se iguala ao valor esperado (neutro a risco).  
+  
+Assim, temos, por exemplo,  
+  
+$$U: \mathbb{R}^+ \rightarrow \mathbb{R}$$  
+  
+$$U(x) = ln(x)$$  
+  
+E, por conseguinte, nosso objetivo se torna  
+  
+$$\min_{Q^*} \sum\limits_{j = 1}^{100}U(Multa_{j}(i)),\; i \in\{Jan,Fev,...,Dez\}$$  
+  
+<br>  
+  
+## Item (vi)  
+  
+Seja $P_i$ o vetor de previsões da consultoria no mês $i$, temos que a probabilidade de sobrevivência ($p$) é dada por  
+  
+$$p = \frac{card(S)}{100^{12}}$$  
+  
+Tal que  
+  
+$$S = \{x_1,x_2,...,x_n\}\\x_k = [p{k_1},p{k_2},...,p{k_{12}}]$$    
+  
+Em que, cada $x_k$ é um vetor de cenários que satisfaça   
+  
+$$\sum\limits_{i \in\{Jan,Fev,...,Dez\}} Multa_{x_{k}}(i) \geq 5.000$$  
+  
+<br>  
+  
+  
+## Item (vii)  
+  
+Gostaria de saber como a receita pode ser calculada, uma vez que não há elementos necessários para computar o seu cálculo?  
+  
+
+  
+
+
+  
+
+  
+
+ 
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+

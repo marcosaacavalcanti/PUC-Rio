@@ -1,0 +1,106 @@
+---
+title: "Módulo 03 - Valor da Informação"
+author: "Marcos Cavalcanti (1920533) & Gustavo Deutscher (1820438)"
+date: "07/04/2022"
+output: word_document
+---
+
+## Questão 1  
+
+### Item 1.1  
+
+Dado um investidor neutro a risco, assumimos U(X) = E(X). Portanto, nosso objetivo é  
+
+$$\max_{X \in {\chi}}U(X) = E(X)$$
+
+
+
+
+  
+Chamemos, então, $X_1$ a decisão de assinar um contrato de fornecimento de 300MWh e $X_2$, de 600MWh.
+De acordo com a árvore de decisão acima, como $U(X_1) = E(X_1) = \$ -1.210$ e $U(X_2) = E(X_2) = \$ -2.420$  
+Logo, 
+$$U(X_1) > U(X_2)$$
+  
+$$X_1 \succ X_2$$
+  
+  
+
+### Item 1.2  
+
+Vejamos abaixo o *perfil de risco* e o *perfil de risco acumulado* de cada estratégia pertencente a ${\chi}$.
+
+
+
+
+
+
+Dado a escolha de $X_1$, a probabilidade de receita líquida negativa é de 40%¨.
+
+
+### Item 1.3  
+
+De uma maneira geral, o valor máximo que uma firma está disposta a pagar para uma conultoria é a diferença entre a decisão que gera o maior valor esperado e a decisão que gera o menor - desde que a mesma seja avessa ao risco, é claro.  
+
+
+Nesse caso, o máximo que a empresa estaria disposta a pagar pela informação é a diferença do valor esperado da decisão $X_1$ pelo valor esperado de decisão $X_2$.  
+
+Defina $VC$ como o *valor pago à consultoria*.  
+
+$$VC[{\chi}] = \left[\max_{X \in {\chi}} E[X]\right] - \left[\min_{X \in {\chi}} E[X]\right]$$
+  
+No nosso caso, o máximo que a empresa estaria disposta a pagar pela informação é a diferença do valor esperado da decisão $X_1$, pelo valor esperado de decisão $X_2$.  
+
+$$ {\chi} = \{X_1,X_2\} \;\rightarrow\; VC[{\chi}] = E[X_1] - E[X_2] =  1.210$$
+
+### Item 1.4  
+
+Sejam os conjuntos de opções que tanto a Consultoria quanto o Mercado podem se realizar,  
+
+$$Consultoria = \{Preço Alto\;,\; Preço Normal \}$$
+  
+$$Mercado = \{Preço Alto\;,\; Preço Normal \}$$
+  
+A probabilidade da Consultoria prever *Preço Normal* é igual a
+  
+$$P(Consultoria = Preço Normal) = \frac{Total\;de\;Previsões\;de\;Preço\;Normal}{Total\;de\; Previsões} = 65,87\% $$
+  
+E a probabilidade do Mercado se mostrar com o Preço Alto *dado* que a Consultoria previu Preço Normal é igual a  
+
+$$P(Mercado = {Preço\;Alto}\;|\; Consultoria = {Preço\;Normal}) = \frac{Total\;de\;Previsões\;de\;Preço\;Normal\;|\;Mercado\; Realizou\;Preço\;Alto}{Total\;de\;Previsões\;de\;Preço\;Normal} = 3,66\%$$
+
+
+## Questão 2  
+
+### Item 2.1  
+
+Como se trata de um agente *neutro a risco* (U[x] = E[X]), nosso problema trata de  
+
+$$\max_{X \in {\chi}} U[X] = E[X]$$
+  
+Tal que  
+
+$${\chi} = \{X_M,X_A,X_C\}$$
+
+
+Temos que  
+
+$$\arg \max_{X \in {\chi}} U[x] = X_A = 1.928,75$$
+  
+### Item 2.2  
+
+Dado a decisão ótima, a probabilidade da receita ficar abaixo de $ \$ 100 $ é a razão dos eventos que podem levar a receita a ficar abaixo de $ \$ 100$ pela consequência de todos os eventos, pomderados por suas frequências (ou, probabilidades).  
+
+
+
+
+
+
+
+
+
+
+
+
+
+

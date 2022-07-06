@@ -1,0 +1,425 @@
+---
+title: "Módulo 1: relações de preferência, decisão sob certeza e valor presente"
+author: "Marcos Cavalcanti (1920533) & Gustavo Deutscher (1820438)"
+date: "20/03/2022"
+output: word_document
+---
+
+# Introdução
+Este documento tem o objetivo de juntar todas as explicações, ferramentas e aplicações necessárias para resolver os problemas do Módulo 1: relações de preferência, decisão sob certeza e valor presente da disciplina de Análise de Decisão e Risco no período letivo de 2022.1.
+
+
+## Install Packages
+```{r}
+pacman::p_load(tidyverse,
+               knitr,
+               rmarkdown,
+               quantmod)
+```
+
+
+# Exercício 1 - Expansão Parque de Produção
+
+## Item 1.1
+
+#### Descrição e Método
+
+O problema exige que calculemos o valor presente de todos os fluxos relacionados à operação atual empresa e mais seu investimento na nova fábrica. Quando incluído *todos* esses fluxos, sejam positivos, sejam negativos, temos o chamado Valor Presente Líquido (VPL).  
+
+Seja $X = [C_0,C_1,...,C_T] \subset \mathbb{R}^{T+1}$ o vetor de todos os fluxos de caixa, $T\in\mathbb{N}$ o último ano de observação e $r\in\mathbb{R}$ a taxa de desconto. Então, $VPL:\mathbb{R}^{T+1}\rightarrow\mathbb{R}$.
+
+$$ VPL(X) = \sum_{i=0}^{T} \frac{C_i}{(1+r)^i}$$
+Dado o tempo de análise ($T$) e a taxa de desconto ($r$), é necessário encontrar o vetor $X$ para os dados do problema - isto é, calcular os fluxos de caixa de *cada* instante relevante para o estudo.  
+
+Desse modo, usaremos os seguintes dados: preço de venda por unidade, preço de custo por unidade, custo de investimento de uma nova fábrica em função da sua futura instalação e quantidade de produção estabelecida pela nova fábrica.
+
+
+#### Descrição das Variáveis
+venda_und: preço de venda de uma unidade do produto [$]  
+custo_und: preço de custo de uma unidade do produto [$]  
+r: taxa de desconto [%]  
+I: investimento da nova fábrica por unidade por ano [$/und*ano]  
+tempo: último ano de observação [ano]  
+Q: quantidade produzida pela nova fábrica [produto]  
+VPL_Q130: VPL quando a decisão de expansão da nova fábrica foi em 30 unidades.  
+
+#### Cálculos
+```{r}
+venda_und = 3
+custo_und = 1
+r = 0.05
+I = 10
+Q = 30
+tempo = 40
+ano = data.frame(ano = c(0:tempo))
+
+fluxos =  ano%>%
+  mutate(investimento = ifelse(ano <= 2,I*Q,0),
+         capacidade_produtiva = ifelse(ano <= 2,100,100+Q),
+         custo = ifelse(ano <= 2,
+                        capacidade_produtiva*custo_und,
+                        100+0.01*(capacidade_produtiva-100)^2),
+         receita = capacidade_produtiva * venda_und,
+         fluxo_de_caixa = receita - (custo + investimento),
+         fluxo_de_caixa_descontado = fluxo_de_caixa / (1+r)^ano)
+
+VPL_Q130 = sum(fluxos$fluxo_de_caixa_descontado)
+VPL_Q130 = format(round(VPL_Q130, 2), nsmall = 2)
+```
+
+#### Visualização
+```{r}
+kable(head(fluxos,5))
+```
+
+#### Resultados
+O VPL dos fluxos de caixa descontados quando a empresa opta por uma expansão de 30 unidades na capacidade produtiva de sua nova fábrica é de $ `r VPL_Q130`.  
+
+
+## Item 1.2
+
+#### Descrição e Método
+o Item 1.2 tem bastante similaridade com o item 1.1, com a diferença de que agora **não** haverá instalação de uma nova fábrica.  
+
+Logo, para fins de cálculo, consideraremos Q = 0. 
+
+#### Descrição das Variáveis
+VPL_Q100: VPL quando foi decidido pela não instalação de uma nova fábrica.  
+
+#### Cálculos
+```{r}
+venda_und = 3
+custo_und = 1
+r = 0.05
+I = 10
+Q = 0 
+tempo = 40
+ano = data.frame(ano = c(0:tempo))
+
+fluxos =  ano%>%
+  mutate(investimento = ifelse(ano <= 2,I*Q,0),
+         capacidade_produtiva = ifelse(ano <= 2,100,100+Q),
+         custo = ifelse(ano <= 2,
+                        capacidade_produtiva*custo_und,
+                        100+0.01*(capacidade_produtiva-100)^2),
+         receita = capacidade_produtiva * venda_und,
+         fluxo_de_caixa = receita - (custo + investimento),
+         fluxo_de_caixa_descontado = fluxo_de_caixa / (1+r)^ano)
+
+VPL_Q100 = sum(fluxos$fluxo_de_caixa_descontado)
+VPL_Q100 = format(round(VPL_Q100, 2), nsmall = 2)
+```
+
+#### Visualização
+```{r}
+kable(head(fluxos,5))  
+```
+  
+#### Resultados  
+O VPL dos fluxos de caixa descontados quando a empresa opta por não  expandirde sua capacidade produtiva  é de $ `r VPL_Q100`.  
+
+
+## Item 1.3
+
+### Descrição e Método
+Seja $X = \{0,1,2,....,100\},Q \in X$. Então 
+$$\max\limits_{Q^* \in X} VPL(X)$$
+
+Portanto, queremos o $Q^*$ que maximize o funcional de preferência (VPL).
+
+#### Descrição das Variáveis
+VPL_Q100: VPL quando foi decidido pela não instalação de uma nova fábrica.  
+
+#### Cálculos
+```{r}
+VPL = 0
+venda_und = 3
+custo_und = 1
+r = 0.05
+I = 10
+tempo = 40
+ano = data.frame(ano = c(0:tempo))
+cont = 0
+for(Q in 0:100){
+  fluxos =  ano %>%
+    mutate(investimento = ifelse(ano <= 2,I*Q,0),
+           
+           capacidade_produtiva = ifelse(ano <= 2,100,100+Q),
+           custo = ifelse(ano <= 2,
+                          capacidade_produtiva*custo_und,
+                          100+0.01*(capacidade_produtiva-100)^2),
+           receita = capacidade_produtiva * venda_und,
+           fluxo_de_caixa = receita - (custo + investimento),
+           fluxo_de_caixa_descontado = fluxo_de_caixa / (1+r)^ano)
+  soma = sum(fluxos$fluxo_de_caixa_descontado)
+  VPL = c(VPL,soma)
+  }
+VPL = VPL[2:length(VPL)]
+VPL_otimo = max(VPL)
+Q_otimo = match(VPL_otimo,VPL)-1
+```
+
+#### Resultados
+A quantidade ótima que fornece o maior valor presente de líquido dos dos fluxos de caixa descontados é de `r Q_otimo` unidades.
+
+## Item 1.4
+
+#### Visualização
+```{r}
+df = data.frame(Q = c(0:100),
+                VPL = VPL)
+ggplot(data = df,aes(x = Q,y = VPL))+
+  geom_point()
+```
+#### Resultados
+É possível notar que o gráfico indica o valor do $Q^*$, tal como obtido no Item 1.3.  
+
+# Exercício 2 - Anuidade & Perpetuidade
+
+## Item 2.1
+
+#### Descrição e Método
+Neste primeiro item, é relevante encontrar o valor dos recebimentos futuros que viabiliza o investimento na loja, levando em consideração variáveis, como: investimento inicial, taxa de desconto e tempo.  
+
+O ferramental usado será o mesmo da Questão 1, no qual aplicamos a definição de Valor Presente Líquido (VPL), com as devidas modificações.
+
+Temos que, $X = [-10.000, -10.000,C,C,...,C], card(X) = 11$
+$$ VPL(X) = \frac{-10.000}{(1+r)^0} + \frac{-10.000}{(1+r)^1} + \sum_{i=2}^{10} \frac{C_i}{(1+r)^i}$$
+$\forall C_i,C_j \in X, C_i = C_j$  
+
+Nesse caso, é possível reescrever essa equação de modo a isolar o fluxo constanto $C$, tal como abaixo:
+$$ C = \left[VPL(X)+ \frac{10.000}{(1+r)^0}+\frac{10.000}{(1+r)^1}\right]\left[\frac{(1+r)r}{1 - \frac{1}{(1+r)^9}}\right]$$  
+#### Descrição das Variáveis  
+r: taxa de desconto [%]  
+tempo: último ano de observação [ano]  
+
+#### Cálculos
+```{r}
+r = 0.10
+tempo = 10
+VPL = 0
+C = format(round((VPL + 10000/(1+r)^0 + 10000/(1+r)^1)*(((1+r)*r)/(1-(1/(1+r)^(tempo-1)))),2),nsmall = 2) 
+```
+
+#### Resultados
+O recebimento mínimo $C$ para que o investimento na loja de roupas seja viável é de $ `r C `.
+  
+
+## Item 2.2
+
+#### Descrição e Método
+Agora, a taxa de desconto passou de $10\%$ para $15\%$. Ou seja, os fluxos futuros de recebimento serão descontados a uma taxa maior. Nossa intuição diz que os seus valores presentes serão menores. Vamos comprovar!  
+
+#### Cálculos
+```{r}
+r = 0.15
+tempo = 10
+VPL = 0
+C = format(round((VPL + 10000/(1+r)^0 + 10000/(1+r)^1)*(((1+r)*r)/(1-(1/(1+r)^(tempo-1)))),2),nsmall = 2) 
+```
+
+#### Resultados  
+Como era de se esperar, com uma nova taxa de desconto ($r = 15\%$), o fluxo mínimo necessário para o investimento na loja no Item 2.1 se torna insuficiente.  
+
+O novo valor que possibilita esse investimento é de $ `r C `.
+
+
+## Item 2.3
+
+#### Cálculos  
+```{r}
+tempo = 10
+VPL = 0
+C = 0
+for(r in c(seq(0.01,0.40,0.01))){
+C = c(C,format(round((VPL + 10000/(1+r)^0 + 10000/(1+r)^1)*(((1+r)*r)/(1-(1/(1+r)^(tempo-1))))),2,nsmall = 2))
+}
+C = C[2:length(C)]
+
+```
+
+#### Visualização  
+```{r}
+r = seq(0.01,0.40,0.01)
+plot(r,C,xlab = "r",ylab = "C",main = "Recebimento X Taxa de Desconto")
+```
+
+Intuitivamente, através da visualização dos dados, a relação entre a taxa de desconto $r$ e o recebimento mínimo necessário $C$ parece ser não linear. Para provar, basta demonstrar que a taxa de variação entre as duas variáveis não permanece constante.  
+
+```{r}
+plot(r,Delt(as.numeric(C)),xlab = "r",ylab = "ΔC",main = "Variação do Recebimento X Taxa de Desconto")
+```
+
+#### Resultados  
+Finalmente, podemos afirmar que a relação entre o recebimento $C$ e taxa de desconto $r$ não é linear.  
+  
+
+## Item 2.4
+
+#### Descrição e Método    
+Neste item, compararemos o cálculo do VPL da loja pela fórmula VPL perpétuo e de forma empírica - através de uma data futura **suficientemente** grande.  
+
+Formalmente, temos que
+
+$$ VPL(X) = \frac{-10.000}{(1+r)^0} + \frac{-10.000}{(1+r)^1} + \sum_{i=2}^{\infty} \frac{C_i}{(1+r)^i}$$
+$$ VPL(X) = \frac{-10.000}{(1+r)^0} + \frac{-10.000}{(1+r)^1} + \frac{C}{r(1+r)}$$
+
+
+
+#### Cálculos
+```{r}
+#Cálculo Formal
+r = 0.10
+C = 5000
+VPL_formal = format(round(-10000/(1+r)^0 - 10000/(1+r)^1 + C/(r*(1+r)),2),nsmall =2)
+
+#Cálculo Empírico
+r = 0.10
+C = 5000
+ano = 2:1000
+VPL_empírico = -10000/(1+r)^0 - 10000/(1+r)^1 + sum(C/((1+r)^ano))
+```
+  
+#### Resultados  
+Como podemos verificar, ambos os métodos convergem para o mesmo resultado de valor presente líquido de $ `r VPL_formal`.
+
+# Exercício 3 - Análise de Decisão sob Certeza
+
+## Item 3.1
+
+#### Descrição e Método
+O problema deste e dos próximos itens se trata de modelar os impactos que a empresa mineradora de ouro sofrerá em função de variáveis externas - essencialmente a precificação do seu produto no mercado internacional.  
+
+
+#### Resultados
+Seja $Q\in \mathbb{R},0 \leq Q \leq 130, P \in \mathbb{R}_+,M \in \{80,115\} $. E, seja definido a receita, como: $R:Q\times M -> \mathbb{R}$
+$$ R(Q,M) = PQ- 600\max(Q-M,0)+ 12\max(M-Q,0) $$
+
+## Item 3.2
+
+#### Descrição e Método
+Para o Cenário I faremos o gráfico da seguinte função abaixo:  
+$$ R(Q|M=115) = PQ - 600\max(Q-M,0)+ 12\max(M-Q,0) $$
+E, similarmente, para o Cenário II:  
+$$ R(Q|M=80) = PQ - 600\max(Q-M,0)+ 12\max(M-Q,0) $$
+#### Descrição das Variáveis  
+R1: receita no cenário I  
+Q1: quantidade demandada no cenário I  
+M1: quantidade produzida no cenário I  
+R2: receita no cenário II  
+Q2: quantidade demandada no cenário II  
+M2: quantidade produzida no cenário II  
+
+#### Cálculos
+```{r}
+# Cenário I
+P = 120
+Q1 = 115
+M1 = 115
+R1 = 0
+for(Q1 in 0:130){
+R1 = c(R1,P*Q1 - 600*max(Q1-M1,0)+ 12 * max(M1-Q1,0))
+}
+R1 = R1[2:length(R1)]
+R1_otimo = max(R1)
+Q1_otimo = match(R1_otimo,R1)-1
+
+# Cenário II
+P = 120
+Q2 = 80
+M2 = 80
+R2 = 0
+for(Q2 in 0:130){
+R2 = c(R2,P*Q2 - 600*max(Q2-M2,0)+ 12 * max(M2-Q2,0))
+}
+R2 = R2[2:length(R2)]
+R2_otimo = max(R2)
+Q2_otimo = match(R2_otimo,R2)-1
+```
+
+#### Visualização
+```{r}
+plot(R1,xlabel = "Q",main = "Cenário I")
+```
+
+```{r}
+plot(R2,xlabel = "Q", main = "Cenário II")
+```
+
+
+#### Resultados
+No Cenário I, o nível de produção ótimo é de Q = `r Q1_otimo` unidades. Enquanto que no Cenário II é de Q = `r Q2_otimo`.
+  
+
+## Item 3.3
+
+#### Descrição e Método
+Calcularemos a receita da mineradora na situação em que foi planejado uma demanda de 115 unidades e que ocorreu, porém, o cenário das 80 unidades. 
+
+#### Cálculos
+```{r}
+Q = 115
+P = 120
+M = 80
+R = format(round(P*Q - 600*max(Q-M,0)+ 12 * max(M-Q,0),2),nsmall = 2)
+```
+#### Resultados
+Utilizando a decisão obitda no Cenário I, caso ocorra o Cenário II, a receita da mineradora será de $ `r R`.  
+
+
+## Item 3.4
+
+#### Descrição e Métodos
+
+
+#### Cálculos
+```{r}
+P = 120
+M1 = 115
+M2 = 80
+Q = data.frame(Q = 0:130)
+
+fluxos = Q %>%
+  mutate(R1 = (P*Q) - (600*max(Q-M1,0))+ (12*max(M1-Q,0)),
+        R2 = P*Q - 600*max(Q-M2,0)+ 12 * max(M2-Q,0),
+        dif1 = abs(R1 - max(R1)),
+        dif2 = abs(R2 - max(R2)),
+        arrep = abs(dif1 - dif2))
+```
+```{r include= FALSE}
+Q = 0:130
+arrep = c(rep(3780,81),3192,2604,2016,1428,840,252,336,924,1512,2100,2688,3276,3864,4452,5040,5628,6216,6804,7392,7980,8568,9156,9744,10332,10920,11508,12096,12684,13272,13860,14448,15036,15624,16212,rep(16800,16))
+```
+```{r}
+arrep_otimo = min(arrep)
+Q_otimo = match(arrep_otimo,arrep)-1
+```
+#### Visualização
+```{r}
+plot(Q,arrep,xlab = "Q",ylab = "Arrependimento", main = "Gráfico de Maior Arrependimento")
+```
+
+#### Resultados
+Logo, a quantidade que a empresa busca que minimiza a menor diferença é `r Q_otimo` unidades.  
+
+## Item 3.5
+
+#### Cálculos
+```{r}
+P = 120
+Q = 86
+M1 = 115
+m2 = 80
+
+# Cenário I
+R1 = format(round(P*Q - 600*max(Q-M1,0)+ 12 * max(M1-Q,0),2),nsmall = 2)
+
+# Cenário II
+R2 = format(round(P*Q - 600*max(Q-M2,0)+ 12 * max(M2-Q,0),2),nsmall = 2)
+
+```
+
+#### Resultados
+Utilizando a decisão de produzir `r Q` KGs de ouro, a receita da mineradora no Cenário I é de $\$$ `r R1` e no Cenário II é de $\$$ `r R2` .  
+
+É possível notar que a dispersão de resultados em função dos dois cenários é maior no Item 3.3 do que em relação ao Item 3.5. Ou seja, a estratégia de produção adotada de $Q^* = 86$ parace indicar uma distribuição de resultados com menor variância.

@@ -1,0 +1,139 @@
+---
+title: "Módulo 07"
+author: "Marcos Cavalcanti (1920533) & Gustavo Deutscher (1820438)"
+date: '2022-06-13'
+output: word_document
+---
+
+<br>
+  
+## Questão 1  
+  
+Primeiro de tudo, vamos à descrição das variáveis.   
+  
+$x$: quantidade de jornais comprados pela manhã  
+$\tilde{d}$: quantidade de jornais vendidas durante o dia  
+$\mu$: quantidade máxima que pode ser comprada  
+$q$: valor de venda unitário  
+$r$: valor de revenda unitário  
+$\gamma$: fração máxima recomprada pela editora local  
+$y$: quantidade de jornais vendidos  
+$w$: quantidade de jornais devolvidos à editora local  
+  
+  
+Não foi informado no enunciado, mas vamos adicionar uma variável que exprime o custo unitário de compra do jornaleiro com a editora local, pois como queremos maximizar o *lucro*, devemos expressar todos os custos e receitas que o jornaleiro possui.  
+  
+$c$: custo de compra unitário  
+  
+<br>  
+  
+### Item 1.A   
+  
+A modelagem abaixo tem por objetivo otimizar o lucro esperado do jornaleiro.  
+  
+Seja $\chi$ o conjunto de quantidades possíveis que o jornaleiro pode comprar: $\chi = \{0,1,2,...,\mu\}$, então  
+  
+  
+$$\max\limits_{x \in \chi} \{V(Q(x,\tilde{d}) - c x)\}$$  
+  
+Donde,  
+  
+$$Q(x,\tilde{d}) = max\{qy\;+\;rw \; |\;\;y \leq \tilde{d},\;y+w\leq x,\;y\geq0,\;x\geq0\}$$  
+  
+
+  
+Por fim, temos como variável de **primeiro** estágio $x$, e de **segundo** $y$ e $w$.  
+  
+
+
+
+<br>  
+  
+### Item 1.B   
+  
+Sabemos que o jornaleiro prefere vender todos os jornais aos seus clientes do que revendê-los à editora, desde que haja demanda para isso evidentemente.  
+  
+Logo, podemos assumir que os valores ótimos de $y$ e $w$ são:  
+  
+$$y^* = min\{x,\tilde{d}\}$$  
+  
+$$w^* = \min\;\{\;max\{x-\tilde{d},0\}\;,\;\gamma\;x\}$$    
+  
+E, portanto, podemos reformular $Q(x,\tilde{d})$ como   
+  
+$$ Q(x,\tilde{d}) =  max\{q\; min\{x,\tilde{d}\}\;+\;r\;\min\{\;max\{x-\tilde{d},0\}\;,\;\gamma\;x\}\}$$   
+  
+  
+<br>  
+  
+### Item 1.C  
+  
+Por base da execução do modelo feita no Excel e pelo dados amostrais obtidos, foi encontrado uma quantidade ótima de jornal a ser comprado pela editora local  
+  
+$$x^* = 210 \;[unidades]$$  
+  
+  
+### Item 1.D  
+  
+Segue abaixo o gráfico do perfil de risco acumulado.  
+  
+
+
+
+Além disso apresentamos o perfil calculado para cada cenário amostral e destacamos em amarelo a probabilidade do jornaleiro ter um lucro inferior a $6.000,00.  
+  
+
+
+
+
+  
+### Item 1.E  
+  
+Temos que o valor esperado da informação perfeita (EVPI) é dado por  
+  
+$$EVPI = Lucro\;(x^*)\;-\;E\;[\;(c-q)\;\tilde{d}\;]$$  
+  
+Logo,  
+  
+$$EVPI = 2.128,20$$  
+  
+  
+  
+<br>
+  
+## Questão 2  
+  
+Primeiro de tudo, vamos à descrição das variáveis.  
+  
+$c_i$: custo de expansão do posto $i$  
+$h_i$: custo de extração do posto $i$  
+$x^{0}_i$: capacidade instalada atual do posto $i$  
+$u_i$: capacidade máxima do posto $i$  
+$\tilde{q}$: preço do petróleo no mercado de curto prazo  
+$\tilde{d}$: demanda por petróleo da empresa  
+  
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

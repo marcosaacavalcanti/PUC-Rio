@@ -1,0 +1,276 @@
+---
+title: "Módulo 05 - Medidas de Risco"
+author: "Marcos Cavalcanti (1920533) & Gustavo Deustcher (1820438)"
+date: "07/05/2022"
+output: word_document
+---
+  
+### Instalação dos Pacotes  
+```{r}
+pacman::p_load(tidyverse,
+               geometry)
+
+```
+
+
+
+## Questão 1  
+  
+### Item 1.1  
+  
+De acordo com o PDF da Aula 2, um agente neutro a risco opta sempre por maximar o valor esperado do seus investimentos, mesmo que, por exemplo, isso incorra em um risco de perda máxima maior que outros investimentos. A sua função de utilidade pode ser obtida igualando-se ao valor esperado do retorno das suas decisões.  
+
+Matematicamente, seja ${\chi} = \{X_1,X_2,...,X_n\}$ o conjunto de decisões de um agente neutro a risco. Desse modo, ele deve optar por  
+  
+  
+$$ arg \max_{X \in \chi} E[X] $$ 
+  
+  
+  
+Trazendo esses conceitos ao nosso problema, temos que   
+  
+$${\chi} = \{X_A,X_B,X_C\}$$
+  
+  
+Sejam $L_A$, $L_B$ e $L_C$ os vetores de lucro e $P$ o vetor de probabilidade de ocorrência de cada cenário $i$.  
+  
+#### Cálculos  
+```{r}
+LA = c(-4000,7000,9000,-8000,-5000,6000,-8000,-4000,-8000,8000)
+LB = c(1000,0,7000,1000,-5000,3000,-4000,-6000,8000,3000)
+LC = c(-6000,-4000,-1000,-3000,-2000,3000,5000,8000,5000,-5000)
+P = c(0.05,0.15,0.13,0.07,0.09,0.10,0.11,0.14,0.03,0.13)
+
+E_XA = dot(P,LA)
+E_XB = dot(P,LB)
+E_XC = dot(P,LC)
+
+print(E_XA)
+print(E_XB)
+print(E_XC)
+```
+  
+  
+Logo, temos que    
+  
+  
+$$E[X_A] = L_A \cdot P = 970 $$  
+  
+$$E[X_B] = L_B \cdot P = 230$$  
+  
+$$E[X_C] = L_C \cdot P = 50$$  
+  
+  
+Como discutido anteriormente, se o tomador de decisão é neutro ao risco, podemos obter **uma** função de utilidade (existem infintas funções, uma vez que se mantido a ordem dos valores da imagem, a função de utilidade se preserva), tal que  
+  
+$$U: {\chi} \rightarrow \mathbb{R} \;,\; U(X_i) = E[X_i]$$
+
+  
+Logo,  
+  
+$$(\;U(X_A) > U(X_B) > U(X_C)\;) \rightarrow (\;X_A \succ X_B \succ X_C) $$
+  
+  
+E, pelo Axioma da Transitividade,  
+  
+$$(X_A \succ X_B) \wedge (X_A \succ X_C)$$  
+  
+E, portanto, o investidor prefere $X_A$.  
+  
+  
+### Item 1.2  
+  
+  
+  
+### Item 1.3  
+  
+  
+  
+### Item 1.4  
+  
+  
+  
+  
+  
+
+
+## Questão 2  
+  
+  
+### Item 2.1  
+  
+O Valor Presente Líquido (VPL) de um projeto sob certeza, pode ser facilmente calculado a partir do somatório de todos os fluxos de caixa futuros - ora positivos, ora negativos - trazidos a valor presente por uma **taxa de desconto**.  
+  
+Matematicamente,  
+  
+  
+$$ \mathcal{F} = \{F_0, F_1, ..., F_T\} \subset \mathbb{R^{T+1}} $$
+
+
+E, $r \in \mathbb{R}$ a taxa desconto única de todos os períodos, então  
+  
+$$VPL[\mathcal{F}] = \sum\limits_{t = 0}^{T} \frac{F_i}{(1+r)^{t}} $$
+  
+Sejam $g \in \mathbb{R}$ a taxa de crescimento constante dos fluxos de caixa, $CF$ o custo fixo anual, $R_t$ a receita bruta do ano $t$ e $CV_t$ o custo variável do ano $t$.  
+  
+No nosso caso da Queen Consolidated, temos que mensurar o VPL do projeto, com as seguintes características:  
+  
+$$T = 10 \;[anos]$$  
+  
+$$r = 12 \%$$  
+  
+$$g = 5 \%$$  
+
+  
+$$CF = 35.000 $$  
+  
+$$R_t = 100.000 \times (1+g)^{t-1} $$    
+  
+  
+  
+$$CV_t = 0,5 \times R_t $$  
+  
+Logo, teremos  
+  
+$$F_t = R_t - CV_t - CF_t$$  
+  
+  
+$$
+F_t = 
+\begin{cases}
+    -100.000,& t = 0 \\
+    \frac{100.000 \times (1+g)^{t-1}}{2} - 35.000,              & t  \geq 1
+\end{cases}
+$$
+  
+  
+  
+  
+#### Cálculos  
+  
+```{r}
+r = 0.12
+g = 0.05
+CF = 35000
+R = -100000
+for(t in 1:10){
+  R = c(R,((100000 *(1+g)^(t-1))/2)-35000)
+}
+# vetor de receita líquida
+print(R)
+```
+  
+```{r}
+F = -100000
+for(t in 1:10){
+  F = c(F,R[t+1]/(1+r)^(t))
+}
+F_cumsum = cumsum(F)
+VPL = F_cumsum[length(F)]
+print(VPL)
+```
+  
+Dessa forma, temos o valor do projeto igual a  
+  
+$$VPL = 41.913,28 $$
+  
+Finalmente, como  $VPL > 0 $ , é vantajoso o investimento nesse projeto.  
+  
+  
+  
+### Item 2.2   
+  
+Contudo, até agora consideramos fluxos de caixa, taxas de crescimento e taxas de desconto determinísticas, algo fora do comum - para não dizer *irreal*.  
+  
+Portanto, a segunda parte do item considera o mesmo contexto, porém com os parâmetros modelados por variáveis aleatórias. É verdade que não temos com exatidão a distribuição dos parâmetros (e provavelmente, nunca teremos), mas com uma boa *estimação* é possível modelar o problema de forma a representar *mais* fielmente a realidade.  
+  
+  
+  
+Agora recorrendo aos cálculos feitos no Excel, vamos simular 10.000 cenários em que cada parâmetro terá uma distribuição de uma variável aleatória.  
+  
+  
+  
+Seja uma distribuição Triangular(min,mp,max), em que "min" é menor valor, "max" é o maior valor e "mp" é o valor mais provável, vamos aplicar a fórmula  
+  
+"= max + ( min + (ALEATÓRIO() * (mp - min) - max) * RAIZ( ALEATORIO() )"
+  
+  
+Seja $IN_i$ o investimento inicial da simulação $i$, $RPA_i$ a Receita ao Final do Primeiro Ano da simulação $i$, $G_i$ a taxa de crescimento da simulação $i$, $CFA_i$ o Custo Fixo Anual da simulação $i$ e, por fim, $CV_i$ o Custo Variável da simulação $i$. Então,  
+  
+  
+   
+$$VPL_i = - IN_i + RPA_i \times CV_i \times \sum\limits_{t=1}^{10}\frac{(1+G_i)^{t - 1} - CFA_i}{(1,12)^{t}}$$  
+  
+  
+Desse modo chegamos ao valor VPL estimado de todas as simulações da seguinte forma: 
+  
+  
+$$VPL = \frac{1}{10.000}\sum\limits_{i = 1}^{10.000}VPL_i $$  
+  
+  
+$$VPL = 39.686,75$$   
+  
+  
+### Item 2.3  
+  
+Para calcular o valor do $VaR_{95\%}$, vamos ordenar os valores dos retornos simulados e tomar o valor do percentil de 5% da série de dados. Desse modo,  
+  
+$$VaR_{95\%} = -210.108,06$$
+  
+Agora, para o cálculo da $CVaR_{95\%}$, temos que  
+  
+$$CVaR_{95\%}(X) = - E[X| X \leq - VaR_{95\%}(X)]$$  
+  
+$$CVaR_{95\%}(X) = - 23.644,51$$  
+  
+  
+### Item 2.4  
+  
+Pela propriedade das medidas de risco, elas devem ser invariantes a translação:  
+  
+$$\rho: \chi \rightarrow \mathbb{R},\;\forall m \in \mathbb{R}\;,\;\rho(X+m) = \rho(X) - m$$
+Analisando empiricamente os valores, podemos ver que, de fato,  
+  
+$$VaR_{95\%} = - 190.108,06$$
+  
+Contudo, o mesmo não vale para o $CVaR$, que toma o valor de  
+  
+$$CVaR = -16.103,11$$  
+  
+### Item 2.5  
+  
+Primeiro de tudo, sejam $X,Y$ varáveis aleatórios de modo que $X \sim Uniforme(50.000,50.000)$ e $Y \sim Triangular(80.000,35.000,38.000)$. Desse modo, temos que  
+  
+$$\forall \omega \in \Omega\;,\; X(\omega) < Y(\omega)$$
+  
+Logo, pela propriedade das medidas de risco, pode-se dizer que  
+  
+$$\rho(X) \geq \rho(Y)$$
+  
+Ambos os cenários, antigo e novo, dependem das variáveis aleatórias $X,Y$. Desse modo, o VPL sempre apresentou valores inferiores, bem como, obivamente, suas médias também.  
+  
+Finalmente, é de se esperar que  
+  
+$$\rho(VPL_{antigo}) \leq \rho(VPL_{novo})$$  
+  
+De fato, temos um VaR no cenário antigo de -210.806,06, e no cenário novo de -359.908,75, concluindo que o novo cenário é mais arriscado, de acordo, é claro, com essa métrica de risco.  
+  
+  
+### Item 2.6  
+  
+Calculando com o auxílio do Excel, temos que  
+
+$$VPL_{linha} = VPL + Y\;,\; Y \sim Uniforme (-10.000,50.000)$$  
+  
+$$CVaR_{95\%}(VPL_{linha}) = 15.741,63$$  
+  
+$$CVaR_{95\%}(Y) = 1.498,91$$  
+   
+$$CVaR_{95\%}(VPL) = 23.644,51$$
+  
+Como o CVaR é uma medida de risco coerente, deve valer a propriedade da subaditividade. Logo,  
+  
+$$CVaR_{95\%}(VPL_{linha}) \; \leq\; CVaR_{95\%}(VPL) \;+\;CVaR_{95\%}(Y)$$
+  
+$$15.741,63 \;\leq\; 25.143,42$$
+

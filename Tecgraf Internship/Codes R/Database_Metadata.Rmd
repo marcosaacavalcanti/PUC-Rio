@@ -1,0 +1,213 @@
+---
+title: "DATABASE PRESENTATION AND METADATA"
+date: '06/09/2022'
+output: 
+    html_document:
+        toc: yes
+        toc_float:
+          collapsed: no
+          smooth_scroll: no
+---
+  
+```{r include = FALSE}
+
+pacman::p_load(tidyverse,
+               knitr,
+               DBI,
+               rmarkdown)
+```
+  
+```{r include = FALSE}
+db = 'postgres'  
+host_db = 'localhost'    
+db_port = '5432'  
+db_user = 'postgres'  
+db_password = 'saude123'
+conn = dbConnect(RPostgres::Postgres(), 
+                 dbname = db, 
+                 host=host_db, 
+                 port=db_port,
+                 user=db_user, 
+                 password=db_password)
+```
+
+
+
+  
+```{r include = FALSE}
+brasil_io = dbGetQuery(conn,'SELECT * FROM brasil_io limit 100')
+brazil_cities = dbGetQuery(conn,'SELECT * FROM brazil_cities')
+brazil_cases = dbGetQuery(conn,'SELECT * FROM brazil_cases')
+esus_bruto = dbGetQuery(conn,'SELECT * FROM esus_bruto limit 100')
+google_mobility_report = dbGetQuery(conn,'SELECT * FROM google_mobility_report')
+oxford_measures = dbGetQuery(conn,'SELECT * FROM oxford_measures')
+population_city_2020 = dbGetQuery(conn,'SELECT * FROM population_city_2020')
+socioeconomic_cities = dbGetQuery(conn,'SELECT * FROM socioeconomic_cities')
+socioeconomic_states = dbGetQuery(conn,'SELECT * FROM socioeconomic_states')
+srag_bruto = dbGetQuery(conn, 'SELECT * FROM srag_bruto limit 100')
+srag_simple = dbGetQuery(conn, 'SELECT * FROM srag_simple limit 100')
+si_pni_bruto = dbGetQuery(conn,'SELECT * FROM si_pni_bruto limit 100')
+si_pni_simple = dbGetQuery(conn,'SELECT * FROM si_pni_simple limit 100')
+```
+
+
+### 1. BRASIL IO  
+  
+[DATA](https://brasil.io/dataset/covid19/caso_full/)  
+[METADA](https://github.com/turicas/covid19-br/blob/master/api.md#caso_full)
+
+```{r}
+paged_table(brasil_io)
+```
+  
+  
+### 2. BRAZIL CITIES  
+  
+  
+[DATA](https://www.ibge.gov.br/explica/codigos-dos-municipios.php) 
+  
+  
+```{r}
+paged_table(brazil_cities)
+```
+  
+  
+
+
+### 3. BRAZIL CASES 
+  
+[DATA](https://github.com/wcota/covid19br) 
+  
+```{r}
+paged_table(brazil_cases)
+```
+  
+  
+
+
+### 4. ESUS  
+  
+[DATA](https://opendatasus.saude.gov.br/dataset/registro-de-ocupacao-hospitalar-covid-19)  
+
+```{r}
+paged_table(esus_bruto)
+``` 
+  
+  
+  
+### 5.GOOGLE MOBILITY REPORT  
+  
+[DATA](https://www.google.com/covid19/mobility/)  
+  
+[METADA](https://www.google.com/covid19/mobility/data_documentation.html?hl=en)  
+  
+  
+  
+```{r}
+paged_table(google_mobility_report)
+```
+  
+  
+### 6.OXFORD MEASURES 
+  
+[DATA](https://github.com/OxCGRT/covid-policy-tracker/tree/master/data)  
+[METADA](https://www.bsg.ox.ac.uk/research/research-projects/covid-19-government-response-tracker)  
+  
+```{r}
+paged_table(oxford_measures)
+```
+  
+  
+  
+### 7.POPULATION CITY 2020  
+  
+Falta o Link!
+
+```{r}
+paged_table(population_city_2020)
+```
+  
+
+
+### 8.SOCIOECONOMIC CITIES  
+  
+Falta o Link!
+
+
+```{r}
+paged_table(socioeconomic_cities)
+```
+
+
+### 9.SOCIOECONOMIC STATES  
+  
+Falta o Link!  
+ 
+```{r}
+paged_table(socioeconomic_states)
+``` 
+  
+  
+### 10. SRAG BRUTO 
+  
+[DATA](https://opendatasus.saude.gov.br/dataset/srag-2021-e-2022)  
+  
+[METADATA](https://s3.sa-east-1.amazonaws.com/ckan.saude.gov.br/SRAG/pdfs/dicionario_de_dados_srag_hosp_17_02_2022.pdf)  
+  
+  
+```{r}
+paged_table(srag_bruto)
+``` 
+  
+  
+  
+### 11. SRAG SIMPLE
+  
+  
+```{r}
+paged_table(srag_simple)
+``` 
+  
+  
+### 12. SI PNI BRUTO 
+  
+[DATA](https://opendatasus.saude.gov.br/)  
+  
+[METADA](https://opendatasus.saude.gov.br/dataset/8e0c325d-2586-4b11-8925-4ba51acd6e6d/resource/a8308b58-8898-4c6d-8119-400c722c71b5/download/dicionario-de-dados-vacinacao.pdf)  
+  
+  
+```{r}
+paged_table(si_pni_bruto)
+``` 
+  
+  
+### 13. SI PNI SIMPLE 
+  
+  
+```{r}
+paged_table(si_pni_simple)
+``` 
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

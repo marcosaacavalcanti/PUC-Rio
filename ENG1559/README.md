@@ -1,4 +1,4 @@
 ## ENG1559 - ENGENHARIA FINANCEIRA I (2022.2)
 
-Nota Final: 8,5
+Nota Final: 8.5
 

@@ -1,1 +1,1 @@
-### DISCIPLINAS DE GRADUAÇÃO PUC-Rio
+### Disciplinas de Graduação da PUC-Rio
